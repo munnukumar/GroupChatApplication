@@ -26,7 +26,6 @@
             <button type='submit'>Send</button>
         </form>
     </section>
-
 </body>
 <script>
     let user = localStorage.getItem('username');
@@ -34,13 +33,24 @@
     const form = document.querySelector('form');
     const formData = document.getElementById('formData');
 
-    const displayNewMessage = (message) => {
-        formData.textContent = message;
-    };
+    // const displayNewMessage = (message) => {
+    //     formData.textContent = message;
+    // };
+
+    let file = "/css/message.txt"
+    fetch(file)
+        .then(response => response.text())
+        .then(message => {
+            // Display the message in the messageContainer div
+            formData.innerHTML = message;
+        })
+        .catch(error => {
+            console.error('Error fetching data:', error);
+        });
 
     form.addEventListener('submit', (e) => {
         e.preventDefault();
-        const msg = e.target.msg.value;        
+        const msg = e.target.msg.value;
         const newmsg = user + ':' + msg + ' ';
         fetch('/', {
             method: 'POST',
@@ -49,15 +59,14 @@
             },
             body: JSON.stringify({ message: newmsg })
         })
-        .then(() => {
-            displayNewMessage(newmsg);
-            window.location.reload()
-            
-        })
+            .then(() => {
+                // displayNewMessage(body);
+                window.location.reload()
+            })
             .catch((e) => {
-            console.log(e);
-        })
-        
+                console.log(e);
+            })
+
     })
 </script>
 
