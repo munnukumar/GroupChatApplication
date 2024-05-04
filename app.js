@@ -8,6 +8,8 @@ const rootDir = require('./util/path');
 const app = express();
 app.use(bodyParser.urlencoded({extended:false}));
 app.use(express.static(path.join(rootDir, 'public')));
+app.use(express.static(path.join(rootDir, 'data')));
+
 
 const loginRoutes = require("./routes/login");
 const messageRoutes = require("./routes/message");

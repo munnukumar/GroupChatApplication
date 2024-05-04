@@ -33,11 +33,11 @@
     const form = document.querySelector('form');
     const formData = document.getElementById('formData');
 
-    // const displayNewMessage = (message) => {
-    //     formData.textContent = message;
-    // };
+    const displayNewMessage = (message) => {
+        formData.textContent = message;
+    };
 
-    let file = "/css/message.txt"
+    let file = "messages.json"
     fetch(file)
         .then(response => response.text())
         .then(message => {
