@@ -1,0 +1,88 @@
+/* Nav Bar */
+body {
+    display: flex;
+    flex-direction: column;
+    margin: 0px;
+    font-family: cursive;
+    color: white;
+    overflow-y: hidden;
+}
+
+header {
+    background-color: #202123;
+}
+
+ul {
+    display: flex;
+}
+
+li {
+    list-style: none;
+    margin: 10px;
+}
+
+li a {
+    color: white;
+    text-decoration: none;
+}
+
+li a:hover {
+    color: #0da37f;
+}
+
+.active {
+    color: #0da380b4;
+}
+
+/* Section */
+section {
+    background-color: #282c34;
+    height: 100vh;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: large;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    background-color: #202123;
+    padding: 20px;
+    width: 30%;
+    border-radius: 20px;
+}
+
+pre {
+    background-color: #282c34;
+    margin: 10px;
+    padding: 10px;
+    border-radius: 10px;
+}
+
+label {
+    color: #0da37f;
+    margin: 10px;
+}
+
+input {
+    margin: 0px 10px;
+    border-radius: 5px;
+    padding: 5px;
+    font-size: large;
+}
+
+button {
+    margin: 10px;
+    border-radius: 5px;
+    padding: 5px;
+    font-size: large;
+    background-color: #0da37f;
+    color: #fff;
+    text-decoration: none;
+}
+
+button:hover {
+    background-color: #0da380b4;
+}

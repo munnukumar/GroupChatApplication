@@ -1,28 +1,38 @@
 const express = require("express");
 const bodyParser = require("body-parser");
-const path = require('path');
-const PORT = 8000;
-
-const rootDir = require('./util/path');
+const dotenv = require("dotenv");
+const cors = require("cors");
 
 const app = express();
-app.use(bodyParser.urlencoded({extended:false}));
-app.use(express.static(path.join(rootDir, 'public')));
-app.use(express.static(path.join(rootDir, 'data')));
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(express.static("public"));
+app.use(express.json());
+dotenv.config();
+app.use(cors());
 
+const messages = require("./routes/message");
+const user = require("./routes/user");
+const contact = require("./routes/contact");
+const error = require("./controllers/error");
+const database = require("./util/database");
+const User = require("./models/user");
+const Messages = require("./models/message");
 
-const loginRoutes = require("./routes/login");
-const messageRoutes = require("./routes/message");
-const contactRoutes = require("./routes/contact");
-const errorController = require("./controllers/errorController");
+app.use(messages);
+app.use(user);
+app.use(contact);
 
+app.use(error.error404);
 
-app.use(loginRoutes);
-app.use(messageRoutes);
-app.use(contactRoutes);
+User.hasMany(Messages);
+Messages.belongsTo(User);
 
-app.use(errorController.error404)
-
-app.listen(PORT,()=>{
-    console.log(`server is listing on PORT: ${PORT}`)
-})
+database
+    .sync()
+    // .sync({ force: true })
+    .then(() => {
+        app.listen(process.env.PORT, () => {
+            console.log(`Server is running on port ${process.env.PORT}`);
+        });
+        console.log("Database connected");
+    }).catch(err => console.error(err));
