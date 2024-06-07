@@ -12,16 +12,19 @@ async function fetchAllMessages() {
         const onlineUsers = onlineUsersResponse.data.message.map(user => `${user} joined`).join('\n');
         onlineUsersList.textContent = onlineUsers;
         const storedMessages = localStorage.getItem("messages");
-        let previousMessages = [];
-        if (storedMessages) {
-            previousMessages = JSON.parse(storedMessages);
-        }
-        const allMessages = [...previousMessages, ...newMessages];
+        const allMessages = [...newMessages];
         const last10Messages = allMessages.slice(-10);
         let messageContent = '';
-        last10Messages.forEach((message) => {
-            messageContent += `${message.sender}: ${message.message}\n`;
-        });
+        if (storedMessages) {
+            JSON.parse(storedMessages).forEach((message) => {
+                messageContent += `${message.sender}: ${message.message}\n`;
+            });
+        }
+        else {
+            last10Messages.forEach((message) => {
+                messageContent += `${message.sender}: ${message.message}\n`;
+            });
+        }
         messagesList.textContent = messageContent;
         localStorage.setItem("messages", JSON.stringify(last10Messages));
 
@@ -49,7 +52,7 @@ document.addEventListener("DOMContentLoaded", async () => {
             document.location.href = "login.html";
         }
         else {
-            await axios.post("http://127.0.0.1:3000/set-online", {}, { headers: { "Authorization": token } });
+            await axios.post("http://localhost:3000/set-online", {}, { headers: { "Authorization": token } });
         }
         fetchAllMessages();
         setInterval(fetchAllMessages, 1000);
