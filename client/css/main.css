@@ -86,3 +86,7 @@ button {
 button:hover {
     background-color: #0da380b4;
 }
+
+online-users {
+    color: #0da37f;
+}
