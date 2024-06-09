@@ -190,6 +190,7 @@ exports.editGroup = async (req, res, next) => {
     }
 }
 
+
 exports.deleteMember = async (req, res, next) => {
     try {
         const groupId = req.params.groupId;
@@ -207,6 +208,26 @@ exports.deleteMember = async (req, res, next) => {
         }
         await GroupMember.destroy({ where: { groupId: groupId, userId: userId } });
         res.status(200).json({ message: 'Member deleted successfully' });
+    } catch (err) {
+        console.error(err.errors[0].message);
+        res.status(500).json({ error: err.errors[0].message });
+    }
+}
+
+exports.makeAdmin = async (req, res, next) => {
+    try {
+        const groupId = req.params.groupId;
+        const userId = req.params.userId;
+        const group = await Group.findByPk(groupId);
+        const adminUser = await group.getUsers({
+            where: { id: req.user.id },
+            through: { where: { admin: true } }
+        });
+        if (adminUser.length == 0 || adminUser[0].id != req.user.id) {
+            return res.status(401).json({ error: 'You are not admin' });
+        }
+        await GroupMember.update({ admin: true }, { where: { groupId: groupId, userId: userId } });
+        res.status(200).json({ message: 'Member made admin successfully' });
     } catch (err) {
         console.error(err.errors[0].message);
         res.status(500).json({ error: err.errors[0].message });

@@ -11,7 +11,8 @@ async function fetchAllMessages() {
         const p2 = axios.get(`http://localhost:3000/get-all-members/${groupId}`, { headers: { "Authorization": token } });
         const [allMessagesResponse, membersResponse] = await Promise.all([p1, p2]);
         const newMessages = allMessagesResponse.data.message;
-        const allMembers = Object.entries(membersResponse.data.message).map(([id, member]) => `<li onclick="deleteUser(${id})" id="${id}">${member}</li>`).join('');
+        const allMembers = Object.entries(membersResponse.data.message).map(([id, member]) => `<li onclick="groupMemberBox(${id})" id="${id}">${member}</li>`).join('');
+        
         memberList.innerHTML = allMembers;
         const storedMessages = localStorage.getItem("messages");
         const allMessages = [...newMessages];
@@ -34,9 +35,31 @@ async function fetchAllMessages() {
     }
 }
 
+async function groupMemberBox(userId) {
+    console.log("44444", userId)
+    const memberDialog = document.getElementById("memberDialog");
+    memberDialog.classList.add("active");
+    document.getElementById("delete-member").addEventListener("click", () => {
+        deleteUser(userId);
+    });
+    document.getElementById("make-admin").addEventListener("click", () => {
+        makeAdmin(userId);
+    });
+}
+
 async function deleteUser(userId) {
     try {
         await axios.delete(`http://localhost:3000/delete-member/${groupId}/${userId}`, { headers: { "Authorization": token } });
+        document.location.reload();
+    } catch (err) {
+        alert(err.response.data.error);
+    }
+}
+
+async function makeAdmin(userId) {
+    console.log("333333", userId)
+    try {
+        await axios.put(`http://localhost:3000/make-admin/${groupId}/${userId}`, {}, { headers: { "Authorization": token } });
         document.location.reload();
     } catch (err) {
         alert(err.response.data.error);
@@ -109,6 +132,10 @@ async function editGroup(navBar) {
 
 document.getElementById("close").addEventListener("click", () => {
     document.getElementById("editGroupDialog").classList.remove("active");
+});
+
+document.getElementById("cancel").addEventListener("click", () => {
+    document.getElementById("memberDialog").classList.remove("active");
 });
 
 document.getElementById("delete-group").addEventListener("click", async () => {
