@@ -4,7 +4,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     try {
         if (!token) {
             alert("You are not logged in!");
-            document.location.href = "/login";
+            document.location.href = "login.html";
         }
         else {
             const groupList = document.getElementById("group-list");
@@ -16,7 +16,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     }
     catch (err) {
         alert(err.response.data.error);
-        window.location.href = "/login";
+        window.location.href = "login.html";
     }
 });
 
@@ -29,8 +29,6 @@ document.getElementById("close").addEventListener("click", () => {
 });
 
 async function singleGroup(id, name) {
-    console.log("1111111", id)
-
     try {
         if (!token) {
             alert("You are not logged in!");
@@ -39,7 +37,6 @@ async function singleGroup(id, name) {
         else {
             localStorage.setItem("groupId", id);
             localStorage.setItem("groupName", name);
-            console.log("1111111")
             document.location.href = `single-group.html`;
 
         }
