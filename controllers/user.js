@@ -50,8 +50,7 @@ exports.postLogin = async (req, res, next) => {
             error.statusCode = 401;
             throw error;
         }
-        user.loggedIn = true;
-        await user.save();
+      
         await t.commit();
         res.status(200).json({ message: 'User successfully Logged In', token: generateAccessToken(user.id, user.email) });
     }

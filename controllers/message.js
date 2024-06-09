@@ -3,6 +3,7 @@ const path = require("path");
 const rootDir = require("../util/path");
 const Message = require("../models/message");
 const database = require("../util/database");
+const { Sequelize } = require("sequelize");
 
 exports.getMessages = (req, res, next) => {
     res.sendFile(path.join(rootDir, "client", "message.html"));
@@ -27,7 +28,7 @@ exports.postMessages = async (req, res, next) => {
 
 exports.getAllMessages = async (req, res, next) => {
     try {
-        const messages = await Message.findAll();
+        const messages = await Message.findAll({ where: { GroupId: null } });
         messages.map(message => {
             if (req.user.name == message.sender) {
                 return message.sender = `You`;
