@@ -4,6 +4,7 @@ const dotenv = require("dotenv");
 const cors = require("cors");
 const socket = require("socket.io");
 const http = require("http");
+const cron = require('cron');
 
 const error = require("./controllers/error");
 const User = require("./models/user");
@@ -14,6 +15,8 @@ const database = require("./util/database");
 const authenticateSocket = require("./middlewares/authSocket");
 const messagesSocket = require("./sockets/messages");
 const groupsSocket = require("./sockets/groups");
+const  {archiveOldMessages}  = require("./util/cron")
+
 
 
 const app = express();
@@ -61,6 +64,10 @@ database
             console.log(`Server is running on port ${process.env.PORT}`);
         });
         console.log("Database connected");
+
+        const job = new cron.CronJob('0 0 * * *', archiveOldMessages, null, false, 'Asia/Kolkata');
+        job.start();
+
         io.on("connection", async (socket) => {
             socket.on("message", (message) => {
                 authenticateSocket(socket, (err) => {
