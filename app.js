@@ -35,11 +35,13 @@ const views = require("./routes/views");
 const user = require("./routes/user");
 const contact = require("./routes/contact");
 const groups = require("./routes/groups");
+const upload = require("./routes/upload");
 
 app.use(views);
 app.use(user);
 app.use(contact);
 app.use(groups);
+app.use(upload);
 
 app.use(error.error404);
 
