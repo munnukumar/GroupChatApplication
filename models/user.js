@@ -27,10 +27,6 @@ const User = database.define("User", {
         type: DataTypes.STRING,
         allowNull: false,
     },
-    loggedIn: {
-        type: DataTypes.BOOLEAN,
-        defaultValue: false,
-    }
 });
 
 module.exports = User;

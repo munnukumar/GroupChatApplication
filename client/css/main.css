@@ -1,11 +1,11 @@
 /* Nav Bar */
 body {
+    height: 100vh;
     display: flex;
     flex-direction: column;
     margin: 0px;
     font-family: cursive;
     color: white;
-    overflow-y: hidden;
 }
 
 header {
@@ -45,9 +45,11 @@ section {
     align-items: center;
     justify-content: center;
     font-size: large;
+    overflow: auto;
 }
 
-form,#group-div  {
+form,
+#group-div {
     display: flex;
     flex-direction: column;
     background-color: #202123;
@@ -56,11 +58,22 @@ form,#group-div  {
     border-radius: 20px;
 }
 
+#global-messages {
+    height: 90%;
+}
+
+@media screen and (max-width: 600px) {
+    form {
+        width: 100%;
+    }
+}
+
 pre {
     background-color: #282c34;
     margin: 10px;
     padding: 10px;
     border-radius: 10px;
+    overflow: auto;
 }
 
 label {
@@ -89,16 +102,13 @@ button:hover {
     background-color: #0da380b4;
 }
 
-#online-users, #members  {
+#online-users,
+#members {
     color: #0da37f;
 }
 
-#all-group-heading {
-    text-align: center;
-}
-
-#group-list button {
-    width: 100%;
+#online-users {
+    height: 100px;
 }
 
 #members {
@@ -111,9 +121,32 @@ button:hover {
     cursor: pointer;
 }
 
-/* Create Group */
+#all-messages {
+    height: 200px;
+}
+
+/* Signup and Login */
+label a {
+    text-decoration: none;
+    color: #14ba94;
+}
+
+label a:hover {
+    color: #0da37f;
+}
+
+/* Groups */
+#all-group-heading {
+    text-align: center;
+}
+
+#group-list button {
+    width: 100%;
+}
+
+/* Create/Edit Group */
 #create-group-btn,
-#edit-group-settings  {
+#edit-group-settings {
     font-size: medium;
     margin-left: auto;
 }
@@ -137,7 +170,7 @@ button:hover {
 
 #createGroupDialog.active,
 #editGroupDialog.active,
-#memberDialog.active  {
+#memberDialog.active {
     display: block;
 }
 
@@ -147,7 +180,7 @@ button:hover {
 }
 
 #delete-group,
-#delete-member  {
+#delete-member {
     background-color: #d9534f;
 }
 
@@ -157,7 +190,6 @@ button:hover {
 }
 
 #delete-group:hover,
-#delete-member:hover  {
+#delete-member:hover {
     background-color: #d9534f77;
 }
-
